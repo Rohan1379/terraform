@@ -1,0 +1,35 @@
+for each
+resource "aws_instance" "vm" {
+    for_each =  toset(["rk" ,"pk" "sk"])
+    ami =  "ami-00ca570c1b6d79f36"
+    instance_type = "t3.micro"
+    key_name = "rohan1"
+
+    tags = {
+         Name = "ec-${each.key}"
+    }        
+
+}
+
+--------------------------
+
+for each many instance types
+
+variable "insta"{
+    default = {
+        dev = "t2.micro"
+        prod = "t2.medium"
+    }
+
+}
+resource "aws_instance" "vm" {
+    for_each =  var.insta
+    ami =  "ami-00ca570c1b6d79f36"
+    instance_type = each.value
+    key_name = "rohan1"
+
+    tags = {
+         Name = "ec-${each.key}"
+    }        
+
+}
